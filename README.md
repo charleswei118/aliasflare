@@ -1,6 +1,6 @@
 # aliasflare
 
-**Your own SimpleLogin / addy.io, on Cloudflare's free tier. One click to deploy.**
+**Your own SimpleLogin / addy.io, on Cloudflare's free tier. One-click deploy plus two Email Routing settings, about 5 minutes.**
 
 A different email address for every website, all landing in your real inbox. Turn any of them off in one click when the spam starts. Reply as the alias, so your real address never leaks. Verification codes are pulled into the subject line, tracking pixels are stripped, and AI agents can create aliases and read codes through MCP.
 
@@ -15,7 +15,7 @@ A different email address for every website, all landing in your real inbox. Tur
 | Aliases | 10 | unlimited on username, 10 shared | **unlimited** |
 | Your own domain | paid | paid | **yes** |
 | Bandwidth | unlimited | 10 MB / month | **unlimited inbound** |
-| Reply from alias | yes | paid | **yes** (free with Resend) |
+| Reply from alias | yes | paid | **yes** (optional: free Resend account, or Workers Paid) |
 | Your data | their servers | their servers | **your Cloudflare account** |
 | Cost | $0, then $36/yr | $0, then $12–36/yr | **$0** |
 

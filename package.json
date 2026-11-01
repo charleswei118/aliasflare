@@ -1,7 +1,7 @@
 {
   "name": "aliasflare",
   "version": "0.1.0",
-  "description": "Self-hosted email aliases (SimpleLogin / addy.io style) on Cloudflare Workers. One-click deploy, free tier, reply from alias, verification-code extraction, MCP for AI agents.",
+  "description": "Self-hosted email aliases (SimpleLogin / addy.io style) on Cloudflare Workers. Deploy-to-Cloudflare button plus two Email Routing settings, free tier, reply from alias, verification-code extraction, MCP for AI agents.",
   "type": "module",
   "private": true,
   "license": "MIT",
