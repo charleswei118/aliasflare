@@ -94,6 +94,25 @@ Variables in `wrangler.toml`:
 
 Then: *"Sign me up for the Notion newsletter with a new alias and confirm it."* The agent calls `create_alias(note="notion")`, uses the address, then `get_latest_code`.
 
+
+### Local stdio MCP (Claude Desktop, Cursor, …)
+
+If your client only speaks stdio, run the bundled bridge. It answers `tools/list` locally and forwards tool calls to your own Worker:
+
+```json
+{
+  "mcpServers": {
+    "aliasflare": {
+      "command": "npx",
+      "args": ["-y", "github:charleswei118/aliasflare"],
+      "env": { "ALIASFLARE_URL": "https://aliasflare.<you>.workers.dev", "ALIASFLARE_TOKEN": "<ADMIN_TOKEN>" }
+    }
+  }
+}
+```
+
+A `Dockerfile` for the same bridge is included.
+
 ## REST API
 
 All endpoints need `Authorization: Bearer <ADMIN_TOKEN>`.

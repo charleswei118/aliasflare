@@ -92,6 +92,25 @@ npm run deploy    # 先执行数据库迁移，再部署
 
 然后对 AI 说：“用新别名帮我注册 Notion 并完成邮箱验证。”它会调用 `create_alias(note="notion")`，用这个地址注册，再调用 `get_latest_code` 取验证码。
 
+
+### 本地 stdio MCP（Claude Desktop、Cursor 等）
+
+客户端只支持 stdio 时，用自带的桥接程序：`tools/list` 本地应答，工具调用转发到你自己的 Worker。
+
+```json
+{
+  "mcpServers": {
+    "aliasflare": {
+      "command": "npx",
+      "args": ["-y", "github:charleswei118/aliasflare"],
+      "env": { "ALIASFLARE_URL": "https://aliasflare.<you>.workers.dev", "ALIASFLARE_TOKEN": "<ADMIN_TOKEN>" }
+    }
+  }
+}
+```
+
+仓库里也带了同一个桥接程序的 `Dockerfile`。
+
 ## 限制
 
 - Cloudflare 邮件路由单封上限 25 MiB；用 Catch-all 规则，不受 200 条规则上限影响。

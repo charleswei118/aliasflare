@@ -6,6 +6,7 @@
   "private": true,
   "license": "MIT",
   "main": "src/index.js",
+  "bin": { "aliasflare-mcp": "bin/aliasflare-mcp.js" },
   "scripts": {
     "test": "node --test test/*.test.js",
     "dev": "wrangler dev",
