@@ -1,0 +1,41 @@
+{
+  "name": "aliasflare",
+  "version": "0.1.0",
+  "description": "Self-hosted email aliases (SimpleLogin / addy.io style) on Cloudflare Workers. One-click deploy, free tier, reply from alias, verification-code extraction, MCP for AI agents.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "dev": "wrangler dev",
+    "db:migrate": "wrangler d1 migrations apply DB --remote",
+    "deploy": "wrangler d1 migrations apply DB --remote && wrangler deploy"
+  },
+  "dependencies": {
+    "postal-mime": "^4.2.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.40.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": ["email-alias", "cloudflare-workers", "email-routing", "simplelogin", "addy", "privacy", "mcp", "self-hosted"],
+  "cloudflare": {
+    "bindings": {
+      "DOMAIN": {
+        "description": "Your domain on Cloudflare that receives alias mail, e.g. `example.com`. Several domains: comma-separated, the first is the default."
+      },
+      "DESTINATION": {
+        "description": "Your real inbox. It must be a **verified destination address** in Email Routing (Dashboard → Email → Email Routing → Destination addresses)."
+      },
+      "ADMIN_TOKEN": {
+        "description": "Password for the web dashboard, API and MCP. Generate one with `openssl rand -hex 24`."
+      },
+      "RESEND_API_KEY": {
+        "description": "Optional, for replying/sending from aliases on the free plan. Get a free key at [resend.com](https://resend.com) (3,000 emails/month). Enter `none` to skip."
+      }
+    }
+  }
+}

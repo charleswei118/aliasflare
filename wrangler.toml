@@ -1,0 +1,28 @@
+name = "aliasflare"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[observability]
+enabled = true
+
+# D1 holds aliases, reverse contacts and a bounded mail log (metadata only, no bodies).
+# The Deploy to Cloudflare button creates this database for you.
+[[d1_databases]]
+binding = "DB"
+database_name = "aliasflare"
+migrations_dir = "migrations"
+
+# Sends the rewritten copy of each message to your verified DESTINATION (free on every plan),
+# and — on Workers Paid with Email Sending — replies to arbitrary recipients.
+[[send_email]]
+name = "EMAIL"
+
+[vars]
+# Create any alias on the fly: mail to an unknown address at your domain creates it.
+AUTO_CREATE = "true"
+# "rewrite" (default): hide the sender, enable reply-from-alias. "forward": plain forwarding only.
+FORWARD_MODE = "rewrite"
+BLOCK_TRACKERS = "true"
+CODE_IN_SUBJECT = "true"
+BANNER = "true"

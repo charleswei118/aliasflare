@@ -1,0 +1,8 @@
+# Your domain on Cloudflare (comma-separated for several; the first is the default)
+DOMAIN=example.com
+# Your real inbox; must be a verified destination address in Email Routing
+DESTINATION=you@gmail.com
+# Dashboard / API / MCP password (openssl rand -hex 24)
+ADMIN_TOKEN=change-me-to-a-long-random-string
+# Optional: free Resend key (resend.com) to reply/send from aliases. Use "none" to skip.
+RESEND_API_KEY=none
