@@ -75,13 +75,13 @@ const T={en:{logout:"Log out",loginHint:"Enter your ADMIN_TOKEN.",login:"Log in"
 autoHint:"Tip: any address at your domain works instantly — just make one up when signing up (auto-create).",searchPh:"Search aliases or notes",alias:"Alias",note:"Note",stats:"Mail",on:"On",
 recent:"Recent mail",time:"Time",peer:"From / to",subject:"Subject",code:"Code",send:"Send from an alias",subjectPh:"Subject",bodyPh:"Message",sendBtn:"Send",copied:"Copied",
 del:"Delete",confirmDel:"Delete this alias and its history?",aliases:"aliases",active:"active",fwd:"forwarded",blk:"blocked",rep:"sent",
-mcp:"MCP endpoint for AI agents (Claude, Cursor…): ",mcpTok:"Header: Authorization: Bearer <ADMIN_TOKEN>",modeResend:"via Resend",modeCf:"via Cloudflare Email Sending",modeNone:"No outbound transport — set RESEND_API_KEY to send and reply",
+mcp:"MCP endpoint for AI agents (Claude, Cursor…): ",mcpTok:"Header: Authorization: Bearer <ADMIN_TOKEN>",modeResend:"via Resend",modeBrevo:"via Brevo",modeCf:"via Cloudflare Email Sending",modeNone:"No outbound transport — set RESEND_API_KEY or BREVO_API_KEY to send and reply",
 setupDomain:"DOMAIN is not set.",setupDest:"DESTINATION is not set.",setupRoute:"Last step: Cloudflare Dashboard → your domain → Email → Email Routing → Routing rules → Catch-all → Send to a Worker → this Worker."},
 zh:{logout:"退出",loginHint:"输入 ADMIN_TOKEN 登录。",login:"登录",notePh:"用途，如 taobao、github（可选）",create:"新建别名",
 autoHint:"提示：域名下任意地址都能直接收信，注册时随手编一个即可（自动创建）。",searchPh:"搜索别名或备注",alias:"别名",note:"备注",stats:"邮件",on:"启用",
 recent:"最近邮件",time:"时间",peer:"发件/收件人",subject:"主题",code:"验证码",send:"用别名发信",subjectPh:"主题",bodyPh:"正文",sendBtn:"发送",copied:"已复制",
 del:"删除",confirmDel:"删除这个别名及其记录？",aliases:"别名",active:"启用中",fwd:"已转发",blk:"已拦截",rep:"已发出",
-mcp:"给 AI 用的 MCP 地址（Claude、Cursor 等）：",mcpTok:"请求头：Authorization: Bearer <ADMIN_TOKEN>",modeResend:"通过 Resend 发送",modeCf:"通过 Cloudflare Email Sending 发送",modeNone:"未配置发信通道：设置 RESEND_API_KEY 后才能回信和发信",
+mcp:"给 AI 用的 MCP 地址（Claude、Cursor 等）：",mcpTok:"请求头：Authorization: Bearer <ADMIN_TOKEN>",modeResend:"通过 Resend 发送",modeBrevo:"通过 Brevo 发送",modeCf:"通过 Cloudflare Email Sending 发送",modeNone:"未配置发信通道：设置 RESEND_API_KEY 或 BREVO_API_KEY 后才能回信和发信",
 setupDomain:"尚未设置 DOMAIN。",setupDest:"尚未设置 DESTINATION。",setupRoute:"最后一步：Cloudflare 控制台 → 你的域名 → 电子邮件 → 电子邮件路由 → 路由规则 → Catch-all → 发送到 Worker → 选本 Worker。"}};
 let L=localStorage.lang||((navigator.language||"").toLowerCase().startsWith("zh")?"zh":"en");
 const t=k=>T[L][k]||T.en[k]||k;const $=s=>document.querySelector(s);
@@ -102,7 +102,7 @@ async function load(){
   const warn=[];if(!cfg.domains.length)warn.push(t("setupDomain"));if(!cfg.destination)warn.push(t("setupDest"));if(!s.forwarded)warn.push(t("setupRoute"));
   $("#setup").innerHTML=warn.map(esc).join("<br>");$("#setup").classList.toggle("hide",!warn.length);
   $("#domain").innerHTML=cfg.domains.map(d=>"<option>"+esc(d)+"</option>").join("");$("#domain").classList.toggle("hide",cfg.domains.length<2);
-  $("#sMode").textContent=t(cfg.outbound==="resend"?"modeResend":cfg.outbound==="cloudflare"?"modeCf":"modeNone");
+  $("#sMode").textContent=t(cfg.outbound==="resend"?"modeResend":cfg.outbound==="brevo"?"modeBrevo":cfg.outbound==="cloudflare"?"modeCf":"modeNone");
   $("#mcpCard").innerHTML=esc(t("mcp"))+"<span class='addr'>"+esc(location.origin+"/mcp")+"</span><br>"+esc(t("mcpTok"));
   await Promise.all([list(),logs()]);
 }
