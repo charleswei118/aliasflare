@@ -56,7 +56,7 @@ export async function sendFromAlias(store, env, { alias, to, subject, text, html
   if (!a.enabled) throw new HttpError(400, "alias is disabled");
   const rcpt = splitAddress(to);
   if (!rcpt) throw new HttpError(400, "invalid recipient");
-  if (outboundMode(env) === "none") throw new HttpError(400, "No outbound transport: set RESEND_API_KEY or enable Cloudflare Email Sending");
+  if (outboundMode(env) === "none") throw new HttpError(400, "No outbound transport: set RESEND_API_KEY or BREVO_API_KEY, or enable Cloudflare Email Sending");
   if (!subject || !(text || html)) throw new HttpError(400, "subject and text are required");
   const recipient = `${rcpt.local}@${rcpt.domain}`;
   const contact = await store.contactFor(a.id, recipient);

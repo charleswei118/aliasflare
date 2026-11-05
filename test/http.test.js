@@ -78,6 +78,30 @@ test("send via Resend uses the alias as From", async () => {
   }
 });
 
+test("send via Brevo when BREVO_API_KEY is set", async () => {
+  const calls = [];
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url, opt) => {
+    calls.push({ url, body: JSON.parse(opt.body), key: opt.headers["api-key"] });
+    return new Response(JSON.stringify({ messageId: "<b1@brevo>" }), { status: 201 });
+  };
+  try {
+    const e2 = baseEnv({ BREVO_API_KEY: "xkeysib-test" });
+    const h = { ...auth };
+    await worker.fetch(new Request("https://x/api/aliases", { method: "POST", headers: h, body: JSON.stringify({ local: "shop" }) }), e2, {});
+    const r = await worker.fetch(new Request("https://x/api/send", { method: "POST", headers: h, body: JSON.stringify({ alias: "shop@example.com", to: "Bob@Corp.com", subject: "Hi", text: "Hello" }) }), e2, {});
+    assert.equal(r.status, 200);
+    assert.equal((await r.json()).via, "brevo");
+    assert.equal(calls[0].url, "https://api.brevo.com/v3/smtp/email");
+    assert.equal(calls[0].body.sender.email, "shop@example.com");
+    assert.deepEqual(calls[0].body.to, [{ email: "bob@corp.com" }]);
+    assert.equal(calls[0].body.textContent, "Hello");
+    assert.equal(calls[0].key, "xkeysib-test");
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
 test("MCP: initialize, list tools, create alias, read code", async () => {
   const rpc = async (method, params, id = 1) => (await (await call("/mcp", { method: "POST", headers: auth, body: JSON.stringify({ jsonrpc: "2.0", id, method, params }) })).json());
   const init = await rpc("initialize", { protocolVersion: "2025-06-18" });

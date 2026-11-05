@@ -50,6 +50,8 @@
 收信并转发到你自己已验证的邮箱，在所有 Cloudflare 套餐上都免费。要发给**别人**（回信、发新信）需要二选一：
 
 - **Resend**（推荐，免费每月 3000 封、每天 100 封）：在 [resend.com](https://resend.com) 注册，添加并验证域名，创建 API Key，填到 `RESEND_API_KEY`。
+- **Brevo**（免费，每天 300 封）：在 [brevo.com](https://brevo.com) 注册，验证发件域名（按它给的记录添加 DNS），创建 API Key，填到 `BREVO_API_KEY`（可选，不用填 `none`）。未设置 `RESEND_API_KEY` 时使用。
+  送达率取决于域名信誉：新注册的 Brevo 免费账号配免费子域名（如 `*.dpdns.org`），可能进 Outlook 垃圾箱或被 Gmail 拒收。用自己的域名、少量真实回信会好很多。
 - **Cloudflare Email Sending**：需要 Workers 付费版（每月 $5，含 3000 封），在 Email Sending 里接入域名，`RESEND_API_KEY` 填 `none`。
 
 两者都不配，除回信和发信外的功能都能用。

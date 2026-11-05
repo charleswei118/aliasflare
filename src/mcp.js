@@ -4,7 +4,7 @@
 import { createAlias, setEnabled, sendFromAlias, publicAlias, findAlias } from "./service.js";
 
 export const PROTOCOL_VERSIONS = ["2025-06-18", "2025-03-26", "2024-11-05"];
-export const SERVER_INFO = { name: "aliasflare", title: "aliasflare email aliases", version: "0.1.0" };
+export const SERVER_INFO = { name: "aliasflare", title: "aliasflare email aliases", version: "0.2.0" };
 
 export const TOOLS = [
   {
@@ -88,7 +88,7 @@ export const TOOLS = [
     name: "send_from_alias",
     title: "Send email from alias",
     description:
-      "Send a plain-text email to someone FROM one of the user's aliases, so the real address stays hidden. Requires RESEND_API_KEY or Cloudflare Email Sending. " +
+      "Send a plain-text email to someone FROM one of the user's aliases, so the real address stays hidden. Requires RESEND_API_KEY, BREVO_API_KEY or Cloudflare Email Sending. " +
       "This sends real mail: only call it when the user asked to send this exact message.",
     inputSchema: {
       type: "object",

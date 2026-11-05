@@ -73,6 +73,7 @@ export function baseEnv(over = {}) {
     DESTINATION: "me@gmail.com",
     ADMIN_TOKEN: "test-token-123456",
     RESEND_API_KEY: "none",
+    BREVO_API_KEY: "none",
     DB: fakeD1(),
     ...over,
   };

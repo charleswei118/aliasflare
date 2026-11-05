@@ -1,5 +1,6 @@
-// Outbound mail. Two transports:
+// Outbound mail. Three transports:
 //  - Resend HTTP API (free tier: 3,000/month) when RESEND_API_KEY is set
+//  - Brevo HTTP API (free tier: 300/day) when BREVO_API_KEY is set
 //  - Cloudflare Email Sending binding `EMAIL` otherwise (arbitrary recipients need Workers Paid)
 // Mail to your own verified destination address always goes through `EMAIL`, which is free.
 
@@ -73,13 +74,38 @@ export async function sendViaResend(env, msg, fetchImpl = fetch) {
   return { id: data.id || null, via: "resend" };
 }
 
+/** Send via Brevo. Throws on failure. */
+export async function sendViaBrevo(env, msg, fetchImpl = fetch) {
+  const body = {
+    sender: { email: msg.from, ...(msg.fromName ? { name: msg.fromName } : {}) },
+    to: [{ email: msg.to }],
+    subject: msg.subject || "(no subject)",
+    ...(msg.text ? { textContent: msg.text } : {}),
+    ...(msg.html ? { htmlContent: msg.html } : {}),
+    ...(msg.replyTo ? { replyTo: { email: msg.replyTo } } : {}),
+    ...(msg.headers ? { headers: msg.headers } : {}),
+    ...(msg.attachments?.length ? { attachment: msg.attachments.map((a) => ({ name: a.filename, content: a.content })) } : {}),
+  };
+  const res = await fetchImpl("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: { "api-key": env.BREVO_API_KEY, "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(`Brevo ${res.status}: ${data.message || data.code || "send failed"}`);
+  return { id: data.messageId || null, via: "brevo" };
+}
+
 /** Send to an arbitrary recipient (replies / new mail from an alias). */
 export function sendExternal(env, msg, fetchImpl = fetch) {
-  return isUnset(env.RESEND_API_KEY) ? sendViaBinding(env, msg) : sendViaResend(env, msg, fetchImpl);
+  if (!isUnset(env.RESEND_API_KEY)) return sendViaResend(env, msg, fetchImpl);
+  if (!isUnset(env.BREVO_API_KEY)) return sendViaBrevo(env, msg, fetchImpl);
+  return sendViaBinding(env, msg);
 }
 
 export function outboundMode(env) {
   if (!isUnset(env.RESEND_API_KEY)) return "resend";
+  if (!isUnset(env.BREVO_API_KEY)) return "brevo";
   if (env.EMAIL?.send) return "cloudflare";
   return "none";
 }
