@@ -51,6 +51,7 @@ Receiving and forwarding to your own verified inbox is free on every Cloudflare 
 
 - **Resend** (recommended, free 3,000 emails/month, 100/day): sign up at [resend.com](https://resend.com), add and verify your domain, create an API key, set it as `RESEND_API_KEY`.
 - **Brevo** (free, 300 emails/day): sign up at [brevo.com](https://brevo.com), verify your sending domain (add the DNS records it gives you), create an API key, set it as `BREVO_API_KEY` (optional, no need to fill `none`). Used when `RESEND_API_KEY` isn't set.
+  Deliverability depends on your domain's reputation: a brand-new Brevo free account sending from a free subdomain (e.g. `*.dpdns.org`) may land in Outlook's junk folder or be rejected by Gmail. A domain you own and real, low-volume replies help.
 - **Cloudflare Email Sending** on Workers Paid ($5/month, 3,000 emails included): onboard your domain under Email Sending and leave `RESEND_API_KEY=none`.
 
 Without either, everything except replying and sending works.

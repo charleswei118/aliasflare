@@ -1,6 +1,6 @@
 {
   "name": "aliasflare",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Self-hosted email aliases (SimpleLogin / addy.io style) on Cloudflare Workers. Deploy-to-Cloudflare button plus two Email Routing settings, free tier, reply from alias, verification-code extraction, MCP for AI agents.",
   "type": "module",
   "private": true,
