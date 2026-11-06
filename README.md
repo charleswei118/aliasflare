@@ -1,8 +1,8 @@
 # aliasflare
 
-**Your own SimpleLogin / addy.io, on Cloudflare's free tier. One-click deploy plus two Email Routing settings, about 5 minutes.**
+**Don't want to hand your real email to every website, and don't want to pay for an alias service?** aliasflare is a self-hosted alias mailbox that runs on your own Cloudflare account's free tier.
 
-A different email address for every website, all landing in your real inbox. Turn any of them off in one click when the spam starts. Reply as the alias, so your real address never leaks. Verification codes are pulled into the subject line, tracking pixels are stripped, and AI agents can create aliases and read codes through MCP.
+Unlike SimpleLogin or addy.io, aliases are unlimited, you keep your own domain for free, and nothing lives on someone else's server. A different address for every website, all landing in your real inbox. Turn any of them off in one click when the spam starts. Reply as the alias, so your real address never leaks. Verification codes are pulled into the subject line, tracking pixels are stripped, and AI agents can create aliases and read codes through MCP.
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/charleswei118/aliasflare)
 
@@ -156,6 +156,16 @@ npm test     # node:test, uses node:sqlite as a D1 stand-in
 npm run dev
 ```
 
+## Troubleshooting
+
+- **Mail isn't arriving.** Check Email Routing → Routing rules: the catch-all must be set to *Send to a Worker* → `aliasflare` and enabled.
+- **Nothing is forwarded.** `DESTINATION` must be a verified address under Email Routing → Destination addresses.
+- **Replies fail or land in spam.** Check `/api/config`: `outbound` should be `resend`, `brevo` or `cloudflare`. A brand-new sending domain has little reputation; use a domain you own and keep volume low.
+- **Alias rejected.** It may be disabled, or `AUTO_CREATE=false` and the alias doesn't exist yet.
+- **Still stuck?** Open an issue with what `/health` and `/api/config` return (never paste your `ADMIN_TOKEN`).
+
 ## License
 
 MIT
+
+Looking for an MCP gateway for Chinese public data? See [web2mcp](https://github.com/charleswei118/web2mcp).
