@@ -164,6 +164,14 @@ npm run dev
 - **Alias rejected.** It may be disabled, or `AUTO_CREATE=false` and the alias doesn't exist yet.
 - **Still stuck?** Open an issue with what `/health` and `/api/config` return (never paste your `ADMIN_TOKEN`).
 
+## Hardening
+
+Incoming mail never touches HTTP: Email Routing hands each message straight to the Worker's `email()` handler. The HTTP side only serves the admin UI, REST API and MCP, so you can lock it down without breaking mail:
+
+- Set `workers_dev = false` in `wrangler.toml` and serve the admin side only on a [Custom Domain](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/) of yours (redeploy after the change). Preview/version URLs are a separate setting.
+- Put that hostname behind [Cloudflare Access](https://developers.cloudflare.com/workers/configuration/cloudflare-access/) (Zero Trust free tier), or add a [WAF rate limiting rule](https://developers.cloudflare.com/waf/rate-limiting-rules/) on it. Both act before the Worker runs; requests blocked by WAF, DDoS protection or other security features don't count as Worker requests.
+- Worst case on the free plan: past 100,000 requests/day the Worker returns error 1027 until the counter resets at 00:00 UTC. It stops, it doesn't bill you.
+
 ## License
 
 MIT
