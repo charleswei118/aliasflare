@@ -8,6 +8,10 @@ Unlike SimpleLogin or addy.io, aliases are unlimited, you keep your own domain f
 
 [中文说明](README.zh-CN.md)
 
+![aliasflare demo: an agent creates an alias, reads the login code, then turns the alias off](docs/demo.gif)
+
+<sub>Real output of aliasflare v0.2.0 run locally with demo data (`example.com`).</sub>
+
 ## Why
 
 | | SimpleLogin free | addy.io free | **aliasflare** |

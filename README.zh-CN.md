@@ -8,6 +8,10 @@
 
 [English](README.md)
 
+![aliasflare 演示：智能体创建别名、读取验证码、再关闭别名](docs/demo.gif)
+
+<sub>aliasflare v0.2.0 本地运行的真实输出，数据为演示数据（`example.com`）。</sub>
+
 ## 对比
 
 | | SimpleLogin 免费版 | addy.io 免费版 | **aliasflare** |
