@@ -43,3 +43,11 @@ test("misc helpers", () => {
   assert.ok(!safeEqual("abc", "abcd"));
   assert.equal(displayName('Ev"il\r\n', "a@b.com"), "Evil (a at b.com)");
 });
+
+test("extractCode: code followed by sentence punctuation", () => {
+  assert.equal(extractCode("Sign in", "Your login code is 482913."), "482913");
+  assert.equal(extractCode("", "Your verification code is 7731. It expires in 10 minutes."), "7731");
+  assert.equal(extractCode("Your code 482913.", ""), "482913");
+  // decimals and versions are still not codes
+  assert.equal(extractCode("", "Your code is 1234.56 USD"), null);
+});

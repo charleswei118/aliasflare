@@ -85,12 +85,12 @@ export function extractCode(subject = "", text = "") {
   let m;
   while ((m = re.exec(hay))) {
     const window = hay.slice(m.index + m[0].length, m.index + m[0].length + 80);
-    const digits = window.match(/(?<![\w.:/-])(\d{4,8})(?![\w.:/-]|\d)/);
+    const digits = window.match(/(?<![\w.:/-])(\d{4,8})(?![\w:/-]|\.\d|\d)/);
     if (digits && !isLikelyYear(digits[1], window)) return digits[1];
     const mixed = window.match(/(?<![\w-])([A-Z0-9]{5,8})(?![\w-])/);
     if (mixed && /\d/.test(mixed[1]) && /[A-Z]/.test(mixed[1])) return mixed[1];
   }
-  const subj = String(subject).match(/(?<![\w.:/-])(\d{6})(?![\w.:/-]|\d)/);
+  const subj = String(subject).match(/(?<![\w.:/-])(\d{6})(?![\w:/-]|\.\d|\d)/);
   return subj ? subj[1] : null;
 }
 
